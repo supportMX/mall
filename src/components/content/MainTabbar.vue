@@ -63,7 +63,7 @@ export default {
 }
 </script>
 <style scoped>
-.tab-bar-item img {
+#tab-bar-item img {
     height: 24px;
     width: 24px;
     margin-top: 3px;

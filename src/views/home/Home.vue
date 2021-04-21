@@ -1,12 +1,27 @@
 <template>
-    <div>
-        <h2>我是首页</h2>
-        <p>我是首页内容</p>
+    <div id="Home">
+        <nav-bar class="home-navbar">
+            <template #centen>
+                <div>购物街</div>
+            </template>
+        </nav-bar>
     </div>
 </template>
 <script>
+import NavBar from 'components/common/navbar/NavBar'
+
 export default {
     name: 'Home',
+    components: {
+        NavBar,
+    },
+
+    NavBar,
 }
 </script>
-<style scoped></style>
+<style scoped>
+.home-navbar {
+    color: snow;
+    background-color: violet;
+}
+</style>
