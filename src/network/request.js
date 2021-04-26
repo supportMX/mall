@@ -3,7 +3,7 @@ import axios from 'axios'
 export function request(config) {
     // 1 创建axios 示例和单独的配置
     const instance1 = axios.create({
-        baseURL: 'http://123.207.32.32:8000',
+        baseURL: 'http://152.136.185.210:7878/api/m5',
         timeout: 5000,
     })
 
@@ -34,6 +34,10 @@ export function request(config) {
             return err
         },
     )
+    // instance1({
+    //     url:'',
+    //     params
+    // })
 
     // 3.发送请求，并将返回结果返回给调用方处理
     // 考虑到扩展换插件的事情暂未发生，这里直接返回axiosPromise即可

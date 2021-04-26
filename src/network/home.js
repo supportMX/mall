@@ -7,3 +7,15 @@ export function getHomeMultidata() {
         },
     })
 }
+
+export function getHomeGoods(page, type) {
+    return request({
+        BaseConfig: {
+            url: '/home/data',
+            params: {
+                page,
+                type,
+            },
+        },
+    })
+}
