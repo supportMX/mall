@@ -36,7 +36,7 @@
                     购物车
                 </template>
             </tab-bar-item>
-            <tab-bar-item path="/profile">
+            <tab-bar-item path="/openXML">
                 <template #item-icon>
                     <img src="~assets/img/tabbar/profile.svg" />
                 </template>

@@ -4,6 +4,7 @@ const Home = () => import('views/home/Home.vue')
 const Category = () => import('views/category/Category.vue')
 const Cart = () => import('views/cart/Cart.vue')
 const Profile = () => import('views/profile/Profile.vue')
+const OpenXML = () => import('views/openxml/OpenXML.vue')
 
 const routes = [
     {
@@ -30,6 +31,11 @@ const routes = [
         path: '/profile',
         name: 'Profile',
         component: Profile,
+    },
+    {
+        path: '/openxml',
+        name: 'OpenXML',
+        component: OpenXML,
     },
 ]
 
