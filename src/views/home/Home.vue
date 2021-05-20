@@ -5,7 +5,9 @@
                 <div>购物街</div>
             </template>
         </nav-bar>
-        <scroll class="content" :data="showData">
+        <back-top ref="backtop" @click="clickBackTop" v-show="showTop"></back-top>
+
+        <scroll class="content" :data="showData" ref="scroll" @scroll="contentScroll">
             <home-swiper :banners="banner"></home-swiper>
             <home-recommend :Recommend="recommend" />
             <feature-view></feature-view>
@@ -23,6 +25,7 @@ import NavBar from 'components/common/navbar/NavBar'
 import Scroll from 'components/common/scroll/Scroll'
 import TabControl from 'components/content/TabControl'
 import GoodList from 'components/content/goods/GoodList'
+import BackTop from 'components/content/BackTop.vue'
 
 import { getHomeMultidata, getHomeGoods } from 'network/home'
 
@@ -51,6 +54,7 @@ export default {
                 sell: { page: 0, list: [] },
             },
             currentytype: 'pop',
+            showTop: false,
         }
     },
     methods: {
@@ -69,6 +73,12 @@ export default {
                 default:
                     break
             }
+        },
+        clickBackTop() {
+            this.$refs.scroll.scrollTo(0, 0, 300)
+        },
+        contentScroll(point) {
+            this.showTop = -point.y > 1000
         },
 
         // 数据初始化方法
@@ -100,6 +110,7 @@ export default {
         TabControl,
         GoodList,
         Scroll,
+        BackTop,
     },
 }
 </script>

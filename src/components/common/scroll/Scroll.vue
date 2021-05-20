@@ -22,7 +22,12 @@ export default {
         }
     },
     mounted() {
-        this.scroll = new BScroll(this.$refs.wrapper, {})
+        this.scroll = new BScroll(this.$refs.wrapper, {
+            probeType: 3,
+        })
+        this.scroll.on('scroll', point => {
+            this.$emit('scroll', point)
+        })
         this.initBscroll()
         // setTimeout(() => {
         //     console.log(this.scroll.maxScrollY)
@@ -34,6 +39,9 @@ export default {
         initBscroll() {},
         refresh() {
             this.scroll && this.scroll.refresh()
+        },
+        scrollTo(x, y, time = 300) {
+            this.scroll.scrollTo(x, y, time)
         },
     },
     watch: {
