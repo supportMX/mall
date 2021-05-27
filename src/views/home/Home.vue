@@ -7,7 +7,14 @@
         </nav-bar>
         <back-top ref="backtop" @click="clickBackTop" v-show="showTop"></back-top>
 
-        <scroll class="content" :data="showData" ref="scroll" @scroll="contentScroll">
+        <scroll
+            class="content"
+            :data="showData"
+            ref="scroll"
+            @scroll="contentScroll"
+            @pullingUp="contentPullingUp"
+            :probeType="3"
+        >
             <home-swiper :banners="banner"></home-swiper>
             <home-recommend :Recommend="recommend" />
             <feature-view></feature-view>
@@ -33,9 +40,10 @@ export default {
     name: 'Home',
     created() {
         this.initHomeMultidata()
-        this.initHomeGoods('pop')
-        this.initHomeGoods('new')
-        this.initHomeGoods('sell')
+        this.initHomeGoods(this.currentytype)
+        this.$bus.on('gooditemimageload', () => {
+            this.$refs.scroll.refresh()
+        })
     },
     computed: {
         showData() {
@@ -57,6 +65,7 @@ export default {
             showTop: false,
         }
     },
+    mounted() {},
     methods: {
         // 事件监听
         tabClick(index) {
@@ -80,7 +89,10 @@ export default {
         contentScroll(point) {
             this.showTop = -point.y > 1000
         },
-
+        async contentPullingUp() {
+            await this.initHomeGoods(this.currentytype)
+            this.$refs.scroll.finishPullUp()
+        },
         // 数据初始化方法
         initHomeMultidata() {
             getHomeMultidata()
@@ -92,7 +104,7 @@ export default {
                     console.log(err)
                 })
         },
-        initHomeGoods(type) {
+        async initHomeGoods(type) {
             let good = this.goods[type]
             getHomeGoods(good.page + 1, type).then(res => {
                 // console.log(res.data.list)
