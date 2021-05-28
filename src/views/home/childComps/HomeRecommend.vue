@@ -27,7 +27,7 @@ export default {
     font-size: 12px;
 
     border-bottom: 8px solid #eee;
-    padding: 15px 0 30px;
+    padding: 15px 0 15px;
 }
 .recommend-item {
     flex: 1;

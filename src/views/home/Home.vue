@@ -7,6 +7,14 @@
         </nav-bar>
         <back-top ref="backtop" @click="clickBackTop" v-show="showTop"></back-top>
 
+        <tab-control
+            class="tab-control"
+            :Titles="titles"
+            @tabClick="tabClick"
+            ref="tabcontrol2"
+            v-show="showtabcontrol"
+        />
+
         <scroll
             class="content"
             :data="showData"
@@ -14,11 +22,12 @@
             @scroll="contentScroll"
             @pullingUp="contentPullingUp"
             :probeType="3"
+            :pullUpLoad="true"
         >
-            <home-swiper :banners="banner"></home-swiper>
+            <home-swiper :banners="banner" @swiperload="swiperload"></home-swiper>
             <home-recommend :Recommend="recommend" />
             <feature-view></feature-view>
-            <tab-control class="tab-control" :Titles="titles" @tabClick="tabClick"></tab-control>
+            <tab-control :Titles="titles" @tabClick="tabClick" ref="tabcontrol1" />
             <good-list :goods="showData"></good-list>
         </scroll>
     </div>
@@ -41,9 +50,6 @@ export default {
     created() {
         this.initHomeMultidata()
         this.initHomeGoods(this.currentytype)
-        this.$bus.on('gooditemimageload', () => {
-            this.$refs.scroll.refresh()
-        })
     },
     computed: {
         showData() {
@@ -63,9 +69,17 @@ export default {
             },
             currentytype: 'pop',
             showTop: false,
+            imageIsLoad: false,
+            tabControlOffsetTop: 0,
+            showtabcontrol: false,
         }
     },
-    mounted() {},
+
+    mounted() {
+        this.$bus.on('gooditemimageload', () => {
+            this.$refs.scroll.refresh()
+        })
+    },
     methods: {
         // 事件监听
         tabClick(index) {
@@ -82,12 +96,25 @@ export default {
                 default:
                     break
             }
+            console.log(this.goods[this.currentytype].page)
+            if (this.goods[this.currentytype].page == 0) {
+                this.initHomeGoods(this.currentytype)
+            }
+            this.$refs.tabcontrol1.currentIndex = index
+            this.$refs.tabcontrol2.currentIndex = index
+        },
+        swiperload() {
+            if (!this.imageIsLoad) {
+                this.imageIsLoad = true
+                this.tabControlOffsetTop = this.$refs.tabcontrol1.$el.offsetTop
+            }
         },
         clickBackTop() {
             this.$refs.scroll.scrollTo(0, 0, 300)
         },
         contentScroll(point) {
             this.showTop = -point.y > 1000
+            this.showtabcontrol = -point.y > this.tabControlOffsetTop
         },
         async contentPullingUp() {
             await this.initHomeGoods(this.currentytype)
@@ -130,24 +157,20 @@ export default {
 <style scoped>
 #Home {
     position: relative;
-    padding-top: 44px;
+    /* padding-top: 44px; */
     height: 100vh;
 }
 .home-navbar {
     color: snow;
     background-color: violet;
 
-    position: fixed;
+    /* position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 9;
+    z-index: 9; */
 }
 
-.tab-control {
-    position: sticky;
-    top: 44px;
-}
 .content {
     overflow: hidden;
     position: absolute;
@@ -155,6 +178,9 @@ export default {
     bottom: 49px;
     left: 0px;
     right: 0;
-    /* height: 300px; */
+}
+.tab-control {
+    position: relative;
+    z-index: 9;
 }
 </style>

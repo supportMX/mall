@@ -42,6 +42,7 @@ export default {
     font-size: 15px;
     background-color: rgb(255, 255, 255);
     z-index: 9;
+    padding-top: 5px;
 }
 .tab-control-item {
     margin-top: 5px;

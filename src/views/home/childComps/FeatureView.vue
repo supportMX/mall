@@ -14,4 +14,7 @@ export default {
 .featureview img {
     width: 100%;
 }
+.featureview {
+    padding-bottom: -10;
+}
 </style>

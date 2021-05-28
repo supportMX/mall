@@ -15,6 +15,7 @@ export function request(config) {
         config => {
             // 此处未请求前拦截器，通常用于处理请求之前的处理，例如显示uiload标识，更改配置信息，增加header
             // console.log(config)
+            console.log('发出请求,url：' + config.url)
             return config
         },
         err => {

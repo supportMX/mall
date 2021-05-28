@@ -7,6 +7,7 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
+import { debouch } from 'common/utils'
 
 export default {
     name: 'Home',
@@ -19,16 +20,25 @@ export default {
             type: Number,
             default: 1,
         },
+        pullUpLoad: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
             scroll: null,
+            // 定义函数
+            debouchrefresh: debouch(() => {
+                console.log('执行Scroll刷新')
+                this.scroll && this.scroll.refresh()
+            }, 100),
         }
     },
     mounted() {
         this.scroll = new BScroll(this.$refs.wrapper, {
             probeType: this.probeType,
-            pullUpLoad: true,
+            pullUpLoad: this.pullUpLoad,
             click: true,
         })
 
@@ -49,9 +59,11 @@ export default {
                 // this.scroll.finishPullUp()
             })
         },
+        // 提供给外部调用的刷新函数。在内部实现了防抖动
         refresh() {
-            this.scroll && this.scroll.refresh()
+            this.debouchrefresh()
         },
+
         finishPullUp() {
             this.scroll.finishPullUp()
         },
@@ -59,17 +71,17 @@ export default {
             this.scroll.scrollTo(x, y, time)
         },
         showdongrefresh() {
-            this.scroll.refresh()
+            this.scroll && this.scroll.refresh()
         },
     },
-    watch: {
-        data: {
-            handler() {
-                setTimeout(this.refresh, 20)
-            },
-            deep: true,
-        },
-    },
+    // watch: {
+    //     // data: {
+    //     //     handler() {
+    //     //         setTimeout(this.refresh, 20)
+    //     //     },
+    //     //     deep: true,
+    //     // },
+    // },
 }
 </script>
 <style scoped></style>
