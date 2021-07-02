@@ -5,6 +5,7 @@ const Category = () => import('views/category/Category.vue')
 const Cart = () => import('views/cart/Cart.vue')
 const Profile = () => import('views/profile/Profile.vue')
 const OpenXML = () => import('views/openxml/OpenXML.vue')
+const Detail = () => import('views/detail/Detail.vue')
 
 const routes = [
     {
@@ -36,6 +37,11 @@ const routes = [
         path: '/openxml',
         name: 'OpenXML',
         component: OpenXML,
+    },
+    {
+        path: '/detail/:iid',
+        name: 'Detail',
+        component: Detail,
     },
 ]
 

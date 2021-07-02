@@ -1,13 +1,16 @@
 <template>
     <div id="app">
-        <router-view />
+        <router-view v-slot="{ Component }">
+            <keep-alive exclude="Detail">
+                <component :is="Component" />
+            </keep-alive>
+        </router-view>
         <main-tabbar />
     </div>
 </template>
 
 <script>
 import MainTabbar from 'components/content/MainTabbar'
-
 export default {
     name: 'App',
     components: {

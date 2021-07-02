@@ -9,5 +9,6 @@ module.exports = {
                 views: '@/views',
             },
         },
+        // devtool: 'cheap-module-source-map',
     },
 }

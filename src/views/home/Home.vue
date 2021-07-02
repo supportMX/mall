@@ -50,11 +50,18 @@ export default {
     created() {
         this.initHomeMultidata()
         this.initHomeGoods(this.currentytype)
+        console.log('created')
     },
     computed: {
         showData() {
             return this.goods[this.currentytype].list
         },
+    },
+    activated() {
+        this.$refs.scroll.scroll.y = this.saveY
+    },
+    deactivated() {
+        this.saveY = this.$refs.scroll.scroll.y
     },
     data() {
         return {
@@ -72,12 +79,13 @@ export default {
             imageIsLoad: false,
             tabControlOffsetTop: 0,
             showtabcontrol: false,
+            saveY: 0,
         }
     },
 
     mounted() {
         this.$bus.on('gooditemimageload', () => {
-            this.$refs.scroll.refresh()
+            this.$refs.scroll && this.$refs.scroll.refresh()
         })
     },
     methods: {
